@@ -51,8 +51,9 @@ In addition to the default libraries, the following external libraries are utili
     - Click the logout button to exit the app and return to the login screen.
 
 ## APP Links
-* Website preview(Appetize.io) of Apk: <a href="">DEVBANK</a>
-* Android:
+* Website preview(Appetize.io) of Apk: <a href="https://appetize.io/app/ngeqvli7mpfrgevtyaomjtjaqe">DEVBANK</a>
+* Android: [DEVBANK.zip](https://github.com/Esetobore/Banking-Application/files/13611456/DEVBANK.zip)
+
 
 ### How to Run the App
 

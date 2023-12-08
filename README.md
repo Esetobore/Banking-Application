@@ -39,6 +39,7 @@ In addition to the default libraries, the following external libraries are utili
 2. **Home Screen:**
     - After successful login, users are directed to the home screen.
     - The home screen displays the user's account number and current balance.
+    - The situation where the user has made a transaction and it's not reflecting immediately on this screen just click on the widget-like button showing your account nummber and balance to refresh the balance and will be updated automatically.
     - Navigate to other screens seamlessly using the intuitive interface.
 
 3. **Account Screens:**

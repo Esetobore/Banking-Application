@@ -9,35 +9,31 @@ import 'package:veegil/screens/statistics_screen.dart';
 import 'package:veegil/screens/transactions.dart';
 import 'package:veegil/screens/transfer.dart';
 import 'package:veegil/screens/withdraw.dart';
+import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final HomeController homeController = Get.put(HomeController());
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final Future<SharedPreferences> _currentUserNumber = SharedPreferences.getInstance();
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final HomeController homeController = Get.put(HomeController());
+    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final Future<SharedPreferences> _currentUserNumber = SharedPreferences.getInstance();
+
+
     return Scaffold(
       body: Obx(() {
         if (homeController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         } else {
           // Use filteredUsers to display user data
-          List<DataUser> displayedUser =
-          homeController.filteredUsers.isNotEmpty
+          List<DataUser> displayedUser = homeController.filteredUsers.isNotEmpty
               ? homeController.filteredUsers
               : homeController.authUserModel?.data ?? [];
           return SafeArea(
             child: Column(
               children: [
-                 Padding(
+                Padding(
                   padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -105,8 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     SizedBox(height: 8),
                                     Text('Transfer', style: TextStyle(
-                                      fontSize: 13, color: Colors.white,
-                                      fontWeight: FontWeight.bold
+                                        fontSize: 13, color: Colors.white,
+                                        fontWeight: FontWeight.bold
                                     ),
                                     ),
                                   ],
@@ -134,8 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     SizedBox(height: 8),
                                     Text('Withdraw', style: TextStyle(
-                                      fontSize: 13, color: Colors.white,
-                                      fontWeight: FontWeight.bold
+                                        fontSize: 13, color: Colors.white,
+                                        fontWeight: FontWeight.bold
                                     ),
                                     ),
                                   ],
@@ -163,8 +159,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     SizedBox(height: 8),
                                     Text('Statistics', style: TextStyle(
-                                      fontSize: 13, color: Colors.white,
-                                      fontWeight: FontWeight.bold
+                                        fontSize: 13, color: Colors.white,
+                                        fontWeight: FontWeight.bold
                                     ),
                                     ),
                                   ],
@@ -199,8 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     SizedBox(height: 8),
                                     Text('    Bills\nPayment', style: TextStyle(
-                                      fontSize: 13, color: Colors.white,
-                                      fontWeight: FontWeight.bold
+                                        fontSize: 13, color: Colors.white,
+                                        fontWeight: FontWeight.bold
                                     ),
                                     ),
                                   ],
@@ -260,8 +256,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     SizedBox(height: 8),
                                     Text('History', style: TextStyle(
-                                      fontSize: 13, color: Colors.white,
-                                      fontWeight: FontWeight.bold
+                                        fontSize: 13, color: Colors.white,
+                                        fontWeight: FontWeight.bold
                                     ),
                                     ),
                                   ],
@@ -275,21 +271,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(height: 30,),
-                Card(
-                  color: Colors.blueGrey,
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+                ElevatedButton(
+                  onPressed: () async{
+                    final SharedPreferences prefs = await _currentUserNumber;
+                    final String? currentUserNumber = prefs.get('phoneNumber') as String?;
+                        homeController.fetchCurrAuthUser(currentUserNumber!);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blueGrey, // Set your button color
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column (
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Current Balance: ${displayedUser.isNotEmpty
-                              ? displayedUser[0].balance ?? 0
-                              : 'N/A'}",
+                          "Current Balance: ${displayedUser.isNotEmpty ? displayedUser[0].balance ?? 0 : 'N/A'}",
                           style: const TextStyle(
                             fontSize: 22,
                             color: Colors.white,
@@ -298,9 +299,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 10,),
                         Text(
-                          "Account Number: ${displayedUser.isNotEmpty
-                              ? displayedUser[0].phoneNumber
-                              : 'N/A'}",
+                          "Account Number: ${displayedUser.isNotEmpty ? displayedUser[0].phoneNumber : 'N/A'}",
                           style: const TextStyle(
                             fontSize: 22,
                             color: Colors.white,
@@ -315,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         }
-        }),
+      }),
     );
   }
 }

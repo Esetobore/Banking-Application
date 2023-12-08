@@ -42,7 +42,7 @@ class _TransferScreenState extends State<TransferScreen> {
                 ),
                 SubmitButton(
                   onPressed: () => transferController.transferFunds(),
-                  title: 'Withdraw',
+                  title: 'Transfer',
                 )
               ],
             ),

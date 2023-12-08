@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veegil/controller/home_screen_controller.dart';
 import 'package:veegil/controller/transactions_controller.dart';
 import 'package:veegil/models/auth_user_model.dart';
@@ -16,6 +17,7 @@ class Statistics extends StatefulWidget {
 class _StatisticsState extends State<Statistics> {
   final HomeController homeControllerStatisticsScreen = Get.put(HomeController());
   final TransactionHistoryController transactionHistoryController = Get.put(TransactionHistoryController());
+  final Future<SharedPreferences> _currentUserNumber = SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +49,22 @@ class _StatisticsState extends State<Statistics> {
               children: [
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 10, 15, 100),
-                    child: Card(
-                      color: Colors.blueGrey,
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                    padding: EdgeInsets.fromLTRB(15, 10, 15, 100),
+                    child: ElevatedButton(
+                      onPressed: () async{
+                        final SharedPreferences prefs = await _currentUserNumber;
+                        final String? currentUserNumber = prefs.get('phoneNumber') as String?;
+                        homeControllerStatisticsScreen.fetchCurrAuthUser(currentUserNumber!);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blueGrey, // Set your button color
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(25.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -99,7 +108,7 @@ class _StatisticsState extends State<Statistics> {
                         minX: 0,
                         maxX: transactionHistoryController.filteredTransactions.length.toDouble() - 1,
                         minY: 10,
-                        maxY: 1000000, // Adjust as per your data
+                        maxY: 9000000, // Adjust as per your data
                         lineBarsData: [
                           LineChartBarData(
                             spots: transactionHistoryController.filteredTransactions.asMap().entries.map((entry) {

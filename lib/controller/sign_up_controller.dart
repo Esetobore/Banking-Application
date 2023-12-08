@@ -29,7 +29,7 @@ class SignUpController extends GetxController {
           if (json['status'] == 'success') {
             phoneController.clear();
             passwordController.clear();
-            Get.offAll(() => const LoginScreen());
+            Get.off(() => const LoginScreen());
           } else {
             throw jsonDecode(response.body)["message"] ?? "Unknown Error Occurred";
           }
@@ -38,7 +38,7 @@ class SignUpController extends GetxController {
         }
 
       }catch (e){
-        // Get.back();
+        Get.back();
         showDialog(
             context: Get.context!,
             builder: (context) {
